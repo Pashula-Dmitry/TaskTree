@@ -12,14 +12,14 @@ export function newList(newItems) {
     };
 }
 
-export function disabledButton(ans) {
+export function disabledd(ans) {
     return {
         type: 'IS_DISABLED',
         ans
     };
 }
 
-export function itemsFetchData(url) {
+export function fetchData(url) {
     return (dispatch) => {
         fetch(url)
             .then((response) => {
