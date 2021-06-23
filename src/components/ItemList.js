@@ -37,10 +37,10 @@ class ItemList extends Component {
         });
     }
 
-    recurse(child){
+    recursionChild(child){
         let deepChild = child.map( (current) => {
             if(current.hasOwnProperty('children')){
-                let childHead = this.recurse(current.children);
+                let childHead = this.recursionChild(current.children);
                 return (<li key={current.id}>{current.label}{childHead}</li>);
             }
             else return (<li key={current.id}>{current.label}</li>)
@@ -63,7 +63,7 @@ class ItemList extends Component {
                 <ul>New list
                     { this.props.newItems.map((item) => {
                             if(item.hasOwnProperty('children')){
-                                let newSort = this.recurse(item.children);
+                                let newSort = this.recursionChild(item.children);
                                 return (<li key={item.id}>{item.label}{newSort}</li>);
                             }
                             return (<li key={item.id}>{item.label}</li>);
@@ -75,10 +75,10 @@ class ItemList extends Component {
     }
 }
 
-// ItemList.propTypes = {
-//     fetchData: PropTypes.func.isRequired,
-//     items: PropTypes.array.isRequired,
-// };
+ ItemList.propTypes = {
+     fetchData: PropTypes.func.isRequired,
+     items: PropTypes.array.isRequired,
+ };
 
 const mapStateToProps = (state) => {
     return {
@@ -91,7 +91,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchData: (url) => dispatch(itemsFetchData(url)),
         newList: (newItems) => dispatch(newList(newItems))
-
     };
 };
 
