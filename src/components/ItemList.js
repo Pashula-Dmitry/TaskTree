@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { itemsFetchData, newList } from '../actions/items';
+import {disabledButton, itemsFetchData, newList} from '../actions/items';
+import {disabledReducer} from "../reducers/disabled";
 
 class ItemList extends Component {
+    constructor(props) {
+        super(props);
+        this.onSorted = this.onSorted.bind(this);
+    }
     componentDidMount() {
         this.props.fetchData('http://5af1eee530f9490014ead8c4.mockapi.io/items')
-
     }
 
     work = [];
@@ -52,7 +56,13 @@ class ItemList extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.onSorted.bind(this)}>Sort</button>
+
+                    <button disabled={this.props.dis === true} onClick={ () => {
+                        this.onSorted();
+                        this.props.disabledd(true);
+                    }}>Sort</button>
+
+
                 <ul>
                     {this.props.items.map((item) => (
                         <li key={item.id}>
@@ -83,14 +93,16 @@ class ItemList extends Component {
 const mapStateToProps = (state) => {
     return {
         items: state.items,
-        newItems: state.newItems
+        newItems: state.newItems,
+        dis: state.disabledReducer,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchData: (url) => dispatch(itemsFetchData(url)),
-        newList: (newItems) => dispatch(newList(newItems))
+        newList: (newItems) => dispatch(newList(newItems)),
+        disabledd: (ans) => dispatch(disabledButton(ans))
     };
 };
 
